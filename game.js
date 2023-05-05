@@ -92,6 +92,30 @@ class Demo2 extends AdventureScene {
     }
 }
 
+class Desktop extends Phaser.Scene {
+
+}
+
+class Folder extends Phaser.Scene {
+
+}
+
+class Bridge extends Phaser.Scene {
+
+}
+
+class FourKings extends Phaser.Scene {
+
+}
+
+class DarkLord extends Phaser.Scene {
+
+}
+
+class Error extends Phaser.Scene {
+    
+}
+
 class Intro extends Phaser.Scene {
     constructor() {
         super('intro')

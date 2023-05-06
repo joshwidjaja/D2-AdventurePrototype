@@ -49,6 +49,14 @@ class AdventureScene extends Phaser.Scene {
                 }
             });
 
+        this.add.text(this.w-2*this.s, this.h-3*this.s, "📁")
+            .setStyle({ fontSize: `${2 * this.s}px` })
+            .setInteractive({useHandCursor: true})
+            .on('pointerover', () => this.showMessage('Go to game folder?'))
+            .on('pointerdown', () => {
+                this.gotoScene('folder');
+            });
+
         this.onEnter();
 
     }

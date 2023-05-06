@@ -2,7 +2,7 @@ A simple adventure game by Josh Widjaja based on a simple adventure game engine 
 
 Code requirements:
 - **4+ scenes based on `AdventureScene`**: unsatisfied (name at least 4 of the classes).
-- **2+ scenes *not* based on `AdventureScene`**: unsatisfied (name the classes).
+- **2+ scenes *not* based on `AdventureScene`**: Intro, Error, Outro
 - **2+ methods or other enhancement added to the adventure game engine to simplify my scenes**:
     - Enhancement 1: unsatisfied (name the method and explain the use of it).
     - Enhancement 2: unsatisfied (name the method and explain the use of it).

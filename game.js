@@ -1,6 +1,5 @@
 // Global Flags
 let bugFixed = false;
-let hasSoySauce = false;
 
 class Demo1 extends AdventureScene {
     constructor() {
@@ -129,7 +128,7 @@ class Bridge extends AdventureScene {
     }
 
     preload() {
-
+        
     }
 
     onEnter() {
@@ -168,7 +167,7 @@ class FourKings extends AdventureScene {
     }
 
     preload() {
-
+        this.load.image('soysauce', 'assets/syoyu.png');
     }
 
     onEnter() {
@@ -178,7 +177,22 @@ class FourKings extends AdventureScene {
         let ninnin = this.add.text();
         let dragonath = this.add.text();
         let gosei = this.add.text();
-        let soysauce = this.add.image();
+        let soysauce = this.add.image(this.w * 0.3, this.h * 0.3, "soysauce")
+            .setScale(0.1)
+            .setInteractive()
+            .on('pointerover', () => {
+                this.tweens.add({
+                    targets: soysauce,
+                    x: this.s + (this.h - 2 * this.s) * Math.random(),
+                    y: this.s + (this.h - 2 * this.s) * Math.random(),
+                    ease: "Sine.inOut",
+                    duration: 500,
+                });
+            })
+            .on('pointerdown', () => {
+                this.gainItem("Soy Sauce");
+                soysauce.destroy();
+            })
         
         if (counter >= 4) {
             let warp = this.add.text(this.w * 0.3, this.h * 0.3, "🌀")
@@ -214,7 +228,8 @@ class DarkLord extends AdventureScene {
                 this.showMessage("ムシャムシャしてきた");
             })
             .on('pointerdown', () => {
-                if (hasSoySauce == true) {
+                if (this.hasItem("Soy Sauce")) {
+                    this.loseItem("Soy Sauce")
                     this.gotoScene('outro');
                 }
                 this.gotoScene('Error');

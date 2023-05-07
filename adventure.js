@@ -1,3 +1,6 @@
+// global variable: tracks scene visited before entering Folder
+let outerSceneKey = "";
+
 class AdventureScene extends Phaser.Scene {
 
     init(data) {
@@ -37,8 +40,8 @@ class AdventureScene extends Phaser.Scene {
         this.inventoryTexts = [];
         this.updateInventory();
 
-        this.add.text(this.w-3*this.s, this.h-3*this.s, "📺")
-            .setStyle({ fontSize: `${2 * this.s}px` })
+        this.add.text(this.w-8*this.s, this.h-6*this.s, "📺")
+            .setStyle({ fontSize: `${4 * this.s}px` })
             .setInteractive({useHandCursor: true})
             .on('pointerover', () => this.showMessage('Fullscreen?'))
             .on('pointerdown', () => {
@@ -49,13 +52,28 @@ class AdventureScene extends Phaser.Scene {
                 }
             });
 
-        this.add.text(this.w-2*this.s, this.h-3*this.s, "📁")
-            .setStyle({ fontSize: `${2 * this.s}px` })
-            .setInteractive({useHandCursor: true})
-            .on('pointerover', () => this.showMessage('Go to game folder?'))
-            .on('pointerdown', () => {
-                this.gotoScene('folder');
-            });
+        if (this.scene.key != "folder") {
+            this.add.text(this.w-15*this.s, this.h-6*this.s, "📁")
+                .setStyle({ fontSize: `${4 * this.s}px` })
+                .setInteractive({useHandCursor: true})
+                .on('pointerover', () => this.showMessage('Go to game folder?'))
+                .on('pointerdown', () => {
+                    this.setOuterSceneKey(this.scene.key);
+                    console.log("Last Scene: " + this.getOuterSceneKey());
+                    this.gotoScene('folder');
+                });
+        } else {
+            console.log("Last Scene: " + this.getOuterSceneKey());
+            this.add.text(this.w-10 * this.s, this.h-3 * this.s, "↩️")
+                .setFontSize(this.s * 2)
+                .setInteractive( {
+                    useHandCursor: true,
+                })
+                .on('pointerover', () => this.showMessage('Return from folder?'))
+                .on('pointerdown', () => {
+                    this.gotoScene(this.getOuterSceneKey());
+                })
+        }
 
         this.onEnter();
 
@@ -154,5 +172,13 @@ class AdventureScene extends Phaser.Scene {
 
     onEnter() {
         console.warn('This AdventureScene did not implement onEnter():', this.constructor.name);
+    }
+
+    getOuterSceneKey() {
+        return outerSceneKey;
+    }
+
+    setOuterSceneKey(osk) {
+        outerSceneKey = osk;
     }
 }

@@ -1,3 +1,7 @@
+// Global Flags
+let bugFixed = false;
+let hasSoySauce = false;
+
 class Demo1 extends AdventureScene {
     constructor() {
         super("demo1", "First Room");
@@ -92,28 +96,144 @@ class Demo2 extends AdventureScene {
     }
 }
 
-class Desktop extends Phaser.Scene {
-
+class Desktop extends AdventureScene {
+    constructor() {
+        super("desktop", "Desktop");
+    }
+    
+    onEnter() {
+        let game = this.add.text(this.w * 0.5, this.h * 0.5, "🎮")
+            .setFontSize(this.s * 2)
+            .setInteractive()
+            .on('pointerover', () => {
+                this.showMessage("A 'game' your friend sent you this morning.\nIt doesn't even seem complete.");
+            })
+            .on('pointerdown', () => this.gotoScene('bridge'));
+    }
 }
 
-class Folder extends Phaser.Scene {
+class Folder extends AdventureScene {
+    constructor() {
+        super("folder", "Game Folder");
+    }
 
+    onEnter() {
+        let file = this.add.text(this.w * 0.2, this.h * 0.2, "📄")
+            .setFontSize(this.s * 2)
+    }
 }
 
-class Bridge extends Phaser.Scene {
+class Bridge extends AdventureScene {
+    constructor() {
+        super("bridge", "Bridge");
+    }
 
+    preload() {
+
+    }
+
+    onEnter() {
+        this.showMessage("…Did it throw me somewhere in the middle of the game?\nIt doesn't seem like the actual start.");
+
+        let brian = this.add.text(this.w * 0.5, this.h * 0.5, "🧍‍♂️")
+            .setFontSize(this.s * 2)
+            .setInteractive()
+            .on('pointerover', () => {
+                this.showMessage(">BRIAN: \"I WANT TO JOIN YOU!!!!!\"");
+            })
+            .on('pointerdown', () => {
+                this.tweens.add({
+                    targets: brian,
+                    x: 0,
+                    y: 0,
+                    duration: 300,
+                });
+
+                let castle = this.add.text(this.w * 0.6, this.h * 0.6, "🏰")
+                    .setFontSize(this.s * 2)
+                    .setInteractive()
+                    .on('pointerover', () => {
+                        this.showMessage(">Proceed to Dark Lord's Castle");
+                    })
+                    .on('pointerdown', () => {
+                        this.gotoScene('fourkings');
+                    })
+            })
+    }
 }
 
-class FourKings extends Phaser.Scene {
+class FourKings extends AdventureScene {
+    constructor() {
+        super("fourkings", "Game Room");
+    }
 
+    preload() {
+
+    }
+
+    onEnter() {
+        let counter = 0;
+
+        let daero = this.add.text();
+        let ninnin = this.add.text();
+        let dragonath = this.add.text();
+        let gosei = this.add.text();
+        let soysauce = this.add.image();
+        
+        if (counter >= 4) {
+            let warp = this.add.text(this.w * 0.3, this.h * 0.3, "🌀")
+                .setFontSize(this.s * 2)
+                .setInteractive()
+                .on('pointerover', () => {
+                    this.showMessage(">Proceed to Final Room");
+                })
+                .on('pointerdown', () => {
+                    if (bugFixed == false) {
+                        this.gotoScene('error');
+                    }
+                    this.gotoScene('darklord');
+                })
+        }
+    }
 }
 
-class DarkLord extends Phaser.Scene {
+class DarkLord extends AdventureScene {
+    constructor() {
+        super("darklord", "Last Room");
+    }
 
+    preload() {
+
+    }
+
+    onEnter() {
+        let musha = this.add.text(this.s * 0.4, this.s * 0.5, "👺")
+            .setFontSize(this.s * 2)
+            .setInteractive()
+            .on('pointerover', () => {
+                this.showMessage("ムシャムシャしてきた");
+            })
+            .on('pointerdown', () => {
+                if (hasSoySauce == true) {
+                    this.gotoScene('outro');
+                }
+                this.gotoScene('Error');
+            })
+    }
 }
 
 class Error extends Phaser.Scene {
-    
+    constructor() {
+        super("error");
+    }
+
+    preload() {
+
+    }
+
+    onEnter() {
+
+    }
 }
 
 class Intro extends Phaser.Scene {
@@ -125,7 +245,7 @@ class Intro extends Phaser.Scene {
         this.add.text(50,100, "Click anywhere to begin.").setFontSize(20);
         this.input.on('pointerdown', () => {
             this.cameras.main.fade(1000, 0,0,0);
-            this.time.delayedCall(1000, () => this.scene.start('demo1'));
+            this.time.delayedCall(1000, () => this.scene.start('desktop'));
         });
     }
 }
@@ -149,7 +269,7 @@ const game = new Phaser.Game({
         width: 1920,
         height: 1080
     },
-    scene: [Intro, Demo1, Demo2, Outro],
+    scene: [Intro, Demo1, Demo2, Outro, Desktop, Folder, Bridge, FourKings, DarkLord, Error],
     title: "Adventure Game",
 });
 

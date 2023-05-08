@@ -101,8 +101,8 @@ class Desktop extends AdventureScene {
     }
     
     onEnter() {
-        let game = this.add.text(this.w * 0.5, this.h * 0.5, "🎮")
-            .setFontSize(this.s * 2)
+        let game = this.add.text(this.w * 0.3, this.h * 0.5, "🎮 CoolGame")
+            .setFontSize(this.s * 4)
             .setInteractive()
             .on('pointerover', () => {
                 this.showMessage("A 'game' your friend sent you this morning.\nIt doesn't even seem complete.");
@@ -117,8 +117,23 @@ class Folder extends AdventureScene {
     }
 
     onEnter() {
-        let file = this.add.text(this.w * 0.2, this.h * 0.2, "📄")
-            .setFontSize(this.s * 2)
+        this.showMessage("Wait, that filename looks weird.\nJust where was it pulled from?");
+
+        let file = this.add.text(this.w * 0.2, this.h * 0.2, "📄 EnemyGraphic〜Musha")
+            .setFontSize(this.s * 4)
+            .setInteractive()
+            .on('pointerover', () => {
+                this.showMessage(">Rename");
+            })
+            .on('pointerdown', () => {
+                file.setText("📄\nEnemyGraphic~Musha");
+                file.on('pointerover', () => {
+                    this.showMessage("That's better.");
+                });
+                file.on('pointerdown', () => {
+                    //do nothing
+                });
+            })
     }
 }
 
@@ -179,6 +194,7 @@ class FourKings extends AdventureScene {
         let gosei = this.add.text();
         let soysauce = this.add.image(this.w * 0.3, this.h * 0.3, "soysauce")
             .setScale(0.1)
+            .setAlpha(0.1)
             .setInteractive()
             .on('pointerover', () => {
                 this.tweens.add({
@@ -192,6 +208,7 @@ class FourKings extends AdventureScene {
             .on('pointerdown', () => {
                 this.gainItem("Soy Sauce");
                 soysauce.destroy();
+                this.gotoScene('error');
             })
         
         if (counter >= 4) {
@@ -232,7 +249,7 @@ class DarkLord extends AdventureScene {
                     this.loseItem("Soy Sauce")
                     this.gotoScene('outro');
                 }
-                this.gotoScene('Error');
+                this.gotoScene('error');
             })
     }
 }
@@ -246,8 +263,12 @@ class Error extends Phaser.Scene {
 
     }
 
-    onEnter() {
-
+    create() {
+        this.add.text(50, 50, "ERROR: Could not read Assets/EnemyGraphic〜Musha.png\nClick anywhere to exit game.")
+            .setFontSize(60);
+        this.input.on('pointerdown', () => {
+            this.scene.start('desktop');
+        });
     }
 }
 

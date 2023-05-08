@@ -56,7 +56,7 @@ class AdventureScene extends Phaser.Scene {
             this.add.text(this.w-15*this.s, this.h-6*this.s, "📁")
                 .setStyle({ fontSize: `${4 * this.s}px` })
                 .setInteractive({useHandCursor: true})
-                .on('pointerover', () => this.showMessage('Go to game folder?'))
+                .on('pointerover', () => this.showMessage('View folder for CoolGame?'))
                 .on('pointerdown', () => {
                     this.setOuterSceneKey(this.scene.key);
                     //console.log("Last Scene: " + this.getOuterSceneKey());
@@ -65,7 +65,7 @@ class AdventureScene extends Phaser.Scene {
         } else {
             //console.log("Last Scene: " + this.getOuterSceneKey());
             this.add.text(this.w-15*this.s, this.h-6*this.s, "↩️")
-                .setFontSize(this.s * 2)
+                .setFontSize(this.s * 4)
                 .setInteractive( {
                     useHandCursor: true,
                 })

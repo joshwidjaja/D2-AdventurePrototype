@@ -264,10 +264,20 @@ class DarkLord extends AdventureScene {
                     let water = this.sound.add('water');
                     water.play();
 
-                    
+                    this.time.delayedCall(100, () => {
+                        let oisii = this.sound.add('shoyuoisii');
+                        oisii.play();
+                    });
 
-                    this.tweens.add({
-
+                    this.time.delayedCall(300, () => {
+                        let damage = this.sound.add('damage');
+                        damage.play();
+                        this.tweens.add({
+                            targets: musha,
+                            x: 0,
+                            y: 0,
+                            duration: 300,
+                        });
                     });
                     
                     this.gotoScene('outro');

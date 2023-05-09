@@ -107,7 +107,7 @@ class Desktop extends AdventureScene {
             .setFontSize(this.s * 4)
             .setInteractive()
             .on('pointerover', () => {
-                this.showMessage("A 'game' my friend sent you this morning.\nIt doesn't even seem complete.");
+                this.showMessage("A 'game' my friend sent me this morning.\nIt doesn't even seem complete.");
             })
             .on('pointerdown', () => this.gotoScene('bridge'));
     }
@@ -154,6 +154,7 @@ class Bridge extends AdventureScene {
         this.showMessage("…Did it throw me somewhere in the middle of the game?\nIt doesn't seem like the actual start.");
 
         let brian = this.add.image(this.w * 0.5, this.h * 0.5, 'brian')
+            .setScale(4)
             .setInteractive()
             .on('pointerover', () => {
                 this.showMessage(">BRIAN: \"I WANT TO JOIN YOU!!!!!\"");
@@ -169,7 +170,7 @@ class Bridge extends AdventureScene {
                 let damage = this.sound.add('damage');
                 damage.play();
 
-                let castle = this.add.text(this.w * 0.6, this.h * 0.6, "🏰")
+                let castle = this.add.text(this.w * 0.5, this.h * 0.4, "🏰")
                     .setFontSize(this.s * 10)
                     .setInteractive()
                     .on('pointerover', () => {
@@ -189,15 +190,69 @@ class FourKings extends AdventureScene {
 
     preload() {
         this.load.image('soysauce', 'assets/syoyu.png');
+        this.load.audio('damage', 'assets/Damage1.mp3');
     }
-
+    
     onEnter() {
         let counter = 0;
+        let damage = this.sound.add('damage');
 
-        let daero = this.add.text(this.w * 0.3, this.h * 0.5, "💻");
-        let ninnin = this.add.text(this.w * 0.3, this.h * 0.3, "👺");
-        let dragonath = this.add.text(this.w * 0.2, this.h * 0.4, "🐉");
-        let gosei = this.add.text(this.w * 0.5, this.h * 0.5, "💀");
+        let daero = this.add.text(this.w * 0.3, this.h * 0.5, "💻 1")
+            .setFontSize(this.s * 4)
+            .setInteractive()
+            .on('pointerdown', () => {
+                this.showMessage("'lmao'");
+                this.tweens.add({
+                    targets: daero,
+                    x: 0,
+                    y: 0,
+                    duration: 300,
+                });
+                damage.play();
+                counter++;
+            })
+        let ninnin = this.add.text(this.w * 0.3, this.h * 0.3, "👺 2")
+            .setFontSize(this.s * 4)
+            .setInteractive()
+            .on('pointerdown', () => {
+                this.showMessage("'our lines'");
+                this.tweens.add({
+                    targets: ninnin,
+                    x: this.w,
+                    y: 0,
+                    duration: 300,
+                });
+                damage.play();
+                counter++;
+            });
+        let dragonath = this.add.text(this.w * 0.2, this.h * 0.4, "🐉 3")
+            .setFontSize(this.s * 4)
+            .setInteractive()
+            .on('pointerdown', () => {
+                this.showMessage("'were'");
+                this.tweens.add({
+                    targets: dragonath,
+                    x: 0,
+                    y: this.h,
+                    duration: 300,
+                });
+                damage.play();
+                counter++;
+            })
+        let gosei = this.add.text(this.w * 0.4, this.h * 0.4, "💀 4")
+            .setFontSize(this.s * 4)
+            .setInteractive()
+            .on('pointerdown', () => {
+                this.showMessage("'unfinished'");
+                this.tweens.add({
+                    targets: gosei,
+                    x: this.w,
+                    y: this.h,
+                    duration: 300,
+                });
+                damage.play();
+                counter++;
+            })
         let soysauce = this.add.image(this.w * 0.3, this.h * 0.3, "soysauce")
             .setScale(0.1)
             .setAlpha(0.1)
@@ -215,23 +270,27 @@ class FourKings extends AdventureScene {
                 this.gainItem("Soy Sauce");
                 this.showMessage("Why is a beverage like this in the game?")
                 soysauce.destroy();
-                this.gotoScene('darklord');
+                //this.gotoScene('darklord');
             })
         
-        if (counter >= 4) {
-            let warp = this.add.text(this.w * 0.3, this.h * 0.3, "🌀")
-                .setFontSize(this.s * 2)
-                .setInteractive()
-                .on('pointerover', () => {
-                    this.showMessage(">Proceed to Final Room");
-                })
-                .on('pointerdown', () => {
-                    if (bugFixed == false) {
-                        this.gotoScene('error');
-                    }
+        let warp = this.add.text(this.w * 0.3, this.h * 0.4, "🌀")
+            .setFontSize(this.s * 4)
+            .setInteractive()
+            .on('pointerover', () => {
+                this.showMessage(">Proceed to Final Room");
+            })
+            .on('pointerdown', () => {
+                if (bugFixed == false) {
+                    this.gotoScene('error');
+                } else {
                     this.gotoScene('darklord');
-                })
-        }
+                }
+            })
+
+        /*if (counter >= 4) {
+            warp.setX(this.w * 0.3);
+            warp.setY(this.h * 0.4);
+        }*/
     }
 }
 
@@ -269,7 +328,7 @@ class DarkLord extends AdventureScene {
                         oisii.play();
                     });
 
-                    this.time.delayedCall(300, () => {
+                    this.time.delayedCall(500, () => {
                         let damage = this.sound.add('damage');
                         damage.play();
                         this.tweens.add({

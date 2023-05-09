@@ -101,11 +101,13 @@ class Desktop extends AdventureScene {
     }
     
     onEnter() {
+        this.showMessage("Not pictured: too many screenshots I forgot to clean up.");
+
         let game = this.add.text(this.w * 0.3, this.h * 0.5, "🎮 CoolGame")
             .setFontSize(this.s * 4)
             .setInteractive()
             .on('pointerover', () => {
-                this.showMessage("A 'game' your friend sent you this morning.\nIt doesn't even seem complete.");
+                this.showMessage("A 'game' my friend sent you this morning.\nIt doesn't even seem complete.");
             })
             .on('pointerdown', () => this.gotoScene('bridge'));
     }
@@ -126,9 +128,10 @@ class Folder extends AdventureScene {
                 this.showMessage(">Rename");
             })
             .on('pointerdown', () => {
-                file.setText("📄\nEnemyGraphic~Musha");
+                file.setText("📄 EnemyGraphic~Musha");
                 file.on('pointerover', () => {
                     this.showMessage("That's better.");
+                    bugFixed = true;
                 });
                 file.on('pointerdown', () => {
                     //do nothing
@@ -143,14 +146,14 @@ class Bridge extends AdventureScene {
     }
 
     preload() {
-        
+        this.load.audio('damage', 'assets/Damage1.mp3');
+        this.load.image('brian', 'assets/Hero1.png');
     }
 
     onEnter() {
         this.showMessage("…Did it throw me somewhere in the middle of the game?\nIt doesn't seem like the actual start.");
 
-        let brian = this.add.text(this.w * 0.5, this.h * 0.5, "🧍‍♂️")
-            .setFontSize(this.s * 2)
+        let brian = this.add.image(this.w * 0.5, this.h * 0.5, 'brian')
             .setInteractive()
             .on('pointerover', () => {
                 this.showMessage(">BRIAN: \"I WANT TO JOIN YOU!!!!!\"");
@@ -163,8 +166,11 @@ class Bridge extends AdventureScene {
                     duration: 300,
                 });
 
+                let damage = this.sound.add('damage');
+                damage.play();
+
                 let castle = this.add.text(this.w * 0.6, this.h * 0.6, "🏰")
-                    .setFontSize(this.s * 2)
+                    .setFontSize(this.s * 10)
                     .setInteractive()
                     .on('pointerover', () => {
                         this.showMessage(">Proceed to Dark Lord's Castle");
@@ -188,10 +194,10 @@ class FourKings extends AdventureScene {
     onEnter() {
         let counter = 0;
 
-        let daero = this.add.text();
-        let ninnin = this.add.text();
-        let dragonath = this.add.text();
-        let gosei = this.add.text();
+        let daero = this.add.text(this.w * 0.3, this.h * 0.5, "💻");
+        let ninnin = this.add.text(this.w * 0.3, this.h * 0.3, "👺");
+        let dragonath = this.add.text(this.w * 0.2, this.h * 0.4, "🐉");
+        let gosei = this.add.text(this.w * 0.5, this.h * 0.5, "💀");
         let soysauce = this.add.image(this.w * 0.3, this.h * 0.3, "soysauce")
             .setScale(0.1)
             .setAlpha(0.1)
@@ -207,8 +213,9 @@ class FourKings extends AdventureScene {
             })
             .on('pointerdown', () => {
                 this.gainItem("Soy Sauce");
+                this.showMessage("Why is a beverage like this in the game?")
                 soysauce.destroy();
-                this.gotoScene('error');
+                this.gotoScene('darklord');
             })
         
         if (counter >= 4) {
@@ -234,22 +241,39 @@ class DarkLord extends AdventureScene {
     }
 
     preload() {
-
+        this.load.image('musha', 'assets/Samurai.png');
+        this.load.audio('damage', 'assets/Damage1.mp3');
+        this.load.audio('water', 'assets/Water2.mp3');
+        this.load.audio('mushamusha', 'assets/mushamusha.mp3');
+        this.load.audio('shoyuoisii', 'assets/shoyuoisii.mp3');
     }
 
     onEnter() {
-        let musha = this.add.text(this.s * 0.4, this.s * 0.5, "👺")
-            .setFontSize(this.s * 2)
+        let musha = this.add.image(this.w * 0.4, this.h * 0.5, 'musha')
+            .setScale(4)
             .setInteractive()
             .on('pointerover', () => {
                 this.showMessage("ムシャムシャしてきた");
+                let mushamusha = this.sound.add('mushamusha');
+                mushamusha.play();
             })
             .on('pointerdown', () => {
                 if (this.hasItem("Soy Sauce")) {
-                    this.loseItem("Soy Sauce")
+                    this.loseItem("Soy Sauce");
+                    
+                    let water = this.sound.add('water');
+                    water.play();
+
+                    
+
+                    this.tweens.add({
+
+                    });
+                    
                     this.gotoScene('outro');
+                } else {
+                    this.gotoScene('gameover');
                 }
-                this.gotoScene('error');
             })
     }
 }
@@ -269,6 +293,19 @@ class Error extends Phaser.Scene {
         this.input.on('pointerdown', () => {
             this.scene.start('desktop');
         });
+    }
+}
+
+class GameOver extends Phaser.Scene {
+    constructor() {
+        super("gameover");
+    }
+
+    preload() {
+        this.load.audio("aaa", "assets/aaa.mp3");
+        this.load.audio("water", "assets/Water2.mp3");
+        this.load.audio("dig", "assets/Kill5.mp3");
+        this.load.audio("explosion", "assets/Explosion6.mp3");
     }
 }
 
@@ -305,7 +342,7 @@ const game = new Phaser.Game({
         width: 1920,
         height: 1080
     },
-    scene: [Intro, Demo1, Demo2, Outro, Desktop, Folder, Bridge, FourKings, DarkLord, Error],
+    scene: [Intro, Demo1, Demo2, Outro, Desktop, Folder, Bridge, FourKings, DarkLord, Error, GameOver],
     title: "Adventure Game",
 });
 

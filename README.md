@@ -1,7 +1,7 @@
 A simple adventure game by Josh Widjaja based on a simple adventure game engine by [Adam Smith](https://github.com/rndmcnlly).
 
 Code requirements:
-- **4+ scenes based on `AdventureScene`**: unsatisfied (name at least 4 of the classes).
+- **4+ scenes based on `AdventureScene`**: Desktop, Folder, Bridge, FourKings
 - **2+ scenes *not* based on `AdventureScene`**: Intro, Error, Outro
 - **2+ methods or other enhancement added to the adventure game engine to simplify my scenes**:
     - Enhancement 1: Added a 'Folder' button to the interface - it will take the player to and from the 'Game Folder' scene at any point in the game. 
@@ -9,9 +9,9 @@ Code requirements:
 
 Experience requirements:
 - **4+ locations in the game world**: unsatisfied (name at least 4 of the classes).
-- **2+ interactive objects in most scenes**: unsatisfied (describe two examples)
-- **Many objects have `pointerover` messages**: unsatisfied (describe two examples)
-- **Many objects have `pointerdown` effects**: unsatisfied (describe two examples)
+- **2+ interactive objects in most scenes**: Brian, Soy Sauce, Samurai
+- **Many objects have `pointerover` messages**: Most ingame objects
+- **Many objects have `pointerdown` effects**: Most ingame objects, except for non-renameable files
 - **Some objects are themselves animated**: unsatisfied (describe two examples)
 
 Asset sources:

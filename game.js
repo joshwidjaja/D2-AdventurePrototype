@@ -129,9 +129,10 @@ class Folder extends AdventureScene {
             })
             .on('pointerdown', () => {
                 file.setText("📄 EnemyGraphic~Musha");
+                this.showMessage("That's better.");
+                bugFixed = true;
                 file.on('pointerover', () => {
                     this.showMessage("That's better.");
-                    bugFixed = true;
                 });
                 file.on('pointerdown', () => {
                     //do nothing
@@ -154,7 +155,7 @@ class Bridge extends AdventureScene {
         this.showMessage("…Did it throw me somewhere in the middle of the game?\nIt doesn't seem like the actual start.");
 
         let brian = this.add.image(this.w * 0.5, this.h * 0.5, 'brian')
-            .setScale(4)
+            .setScale(3)
             .setInteractive()
             .on('pointerover', () => {
                 this.showMessage(">BRIAN: \"I WANT TO JOIN YOU!!!!!\"");
@@ -352,10 +353,6 @@ class Error extends Phaser.Scene {
         super("error");
     }
 
-    preload() {
-
-    }
-
     create() {
         this.add.text(50, 50, "ERROR: Could not read Assets/EnemyGraphic〜Musha.png\nClick anywhere to exit game.")
             .setFontSize(60);
@@ -372,9 +369,28 @@ class GameOver extends Phaser.Scene {
 
     preload() {
         this.load.audio("aaa", "assets/aaa.mp3");
-        this.load.audio("water", "assets/Water2.mp3");
         this.load.audio("dig", "assets/Kill5.mp3");
         this.load.audio("explosion", "assets/Explosion6.mp3");
+    }
+
+    create() {
+        let aaa = this.sound.add('aaa');
+        let dig = this.sound.add('dig');
+        let explosion = this.sound.add('explosion');
+
+        dig.play();
+
+        this.time.delayedCall(400, () => {
+            aaa.play();
+        });
+
+        this.time.delayedCall(1000, () => {
+            explosion.play();
+            this.add.text(50, 50, "click to restart");
+            this.input.on('pointerdown', () => {
+                this.scene.start('desktop');
+            });
+        })
     }
 }
 
@@ -411,7 +427,7 @@ const game = new Phaser.Game({
         width: 1920,
         height: 1080
     },
-    scene: [Intro, Demo1, Demo2, Outro, Desktop, Folder, Bridge, FourKings, DarkLord, Error, GameOver],
+    scene: [Intro, Outro, Desktop, Folder, Bridge, FourKings, DarkLord, Error, GameOver],
     title: "Adventure Game",
 });
 

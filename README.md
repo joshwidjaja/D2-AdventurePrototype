@@ -24,3 +24,5 @@ Asset sources:
 Code sources:
 - `adventure.js` and `index.html` were created for this project by [Adam Smith](https://github.com/rndmcnlly) and edited by me.
 - `game.js` was sketched by [Adam Smith](https://github.com/rndmcnlly) and rewritten by me.
+
+[Demo](https://joshwidjaja.github.io/D2-AdventurePrototype)
